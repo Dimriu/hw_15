@@ -17,6 +17,11 @@ public class AviaSoulsTest {
     Ticket ticket8 = new Ticket("Симферополь", "Москва", 10000, 14, 15);
     Ticket ticket9 = new Ticket("Симферополь", "Санкт-Петербург", 10000, 15, 19);
     Ticket ticket10 = new Ticket("Симферополь", "Санкт-Петербург", 8200, 16, 22);
+    Ticket ticket11 = new Ticket("Симферополь", "Краснодар", 4000, 17, 18);
+    Ticket ticket12 = new Ticket("Симферополь", "Краснодар", 4000, 18, 19);
+    Ticket ticket13 = new Ticket("Симферополь", "Самара", 9000, 20, 22);
+
+
 
     @BeforeEach
     public void setup() {
@@ -30,11 +35,14 @@ public class AviaSoulsTest {
         repository.add(ticket8);
         repository.add(ticket9);
         repository.add(ticket10);
+        repository.add(ticket11);
+        repository.add(ticket12);
+        repository.add(ticket13);
     }
 
     @Test
     public void shouldAllTickets() {
-        Ticket[] expected = {ticket1, ticket2, ticket3, ticket4, ticket5, ticket6, ticket7, ticket8, ticket9, ticket10};
+        Ticket[] expected = {ticket1, ticket2, ticket3, ticket4, ticket5, ticket6, ticket7, ticket8, ticket9, ticket10, ticket11, ticket12, ticket13};
         Ticket[] actual = repository.findAll();
         Assertions.assertArrayEquals(expected, actual);
     }
@@ -82,6 +90,27 @@ public class AviaSoulsTest {
     public void testMethodSearchTicketsInAscendingOrderOfPriceDirectionMinsk() {
         Ticket[] expected = {ticket4, ticket7};
         Ticket[] actual = repository.search("Симферополь", "Минск");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testMethodSearchTicketsInAscendingOrderOfPriceDirectionOneCoincidencesTwo(){
+        Ticket[] expected = {ticket11, ticket12};
+        Ticket[] actual = repository.search("Симферополь", "Краснодар");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testMethodSearchTicketsInAscendingOrderOfPriceDirectionOneCoincidencesOne(){
+        Ticket[] expected = {ticket13};
+        Ticket[] actual = repository.search("Симферополь", "Самара");
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void testMethodSearchTicketsInAscendingOrderOfPriceDirectionOneCoincidencesZero(){
+        Ticket[] expected = {};
+        Ticket[] actual = repository.search("Симферополь", "Киев");
         Assertions.assertArrayEquals(expected, actual);
     }
 
